@@ -250,6 +250,27 @@ names(seqs) <- seqs # This propagates to the tip labels of the tree
 alignment <- AlignSeqs(DNAStringSet(seqs), anchor=NA)
 #AlignSeqs ==> Performs profile-to-profile alignment of multiple unaligned sequences following a guide tree.
 
+
+# 11`- Evaluate accuracy
+#One of the samples included here was a “mock community”, in which a mixture of 20 known strains was sequenced (this mock community is supposed to be 21 strains, but
+#P. acnes is absent from the raw data). Reference sequences corresponding to these strains were provided in the downloaded zip archive.
+#We return to that sample and compare the sequence variants inferred by DADA2 to the expected composition of the community.
+
+# Evaluating DADA2’s accuracy on the mock community:
+unqs.mock <- seqtab.nochim["Mock",]
+unqs.mock <- sort(unqs.mock[unqs.mock>0], decreasing=TRUE) # Drop ASVs absent in the Mock
+cat("DADA2 inferred", length(unqs.mock), "sample sequences present in the Mock community.\n")
+
+## DADA2 inferred 20 sample sequences present in the Mock community.
+
+mock.ref <- getSequences(file.path(path, "HMP_MOCK.v35.fasta"))
+match.ref <- sum(sapply(names(unqs.mock), function(x) any(grepl(x, mock.ref))))
+cat("Of those,", sum(match.ref), "were exact matches to the expected reference sequences.\n")
+
+  ## Of those, 20 were exact matches to the expected reference sequences.
+                        
+#This mock community contained 20 bacterial strains. DADA2 identified 20 ASVs all of which exactly match the reference genomes of the expected community members. 
+#The residual error rate after the DADA2 pipeline for this sample is 0%.
 # 12- Construct Phylogenetic Tree ----------------------------------------
 
 #if (!requireNamespace("BiocManager", quietly = TRUE))
