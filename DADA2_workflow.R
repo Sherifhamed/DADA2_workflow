@@ -2,9 +2,9 @@
 # DADA2 Workflow tutorial
 #Source ==> https://benjjneb.github.io/dada2/tutorial.html
 
-getwd()
+
 #setwd("Add your path")
-setwd("E:/sherif/Bioinformatics/H3ABioNet/Int_16S/Module 5/Session 1/MiSeq_SOP")
+
 
 
 # 1- DADA2  installation -----------------------------------------------------
